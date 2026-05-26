@@ -3,6 +3,7 @@ const path = require("path");
 const logger = require("./logger");
 const copyTemplate = require("./copyTemplate");
 const installDependencies = require("./installDependencies");
+const initGit = require("./initGit");
 
 async function createStructure(projectName, type) {
 
@@ -34,6 +35,7 @@ async function createStructure(projectName, type) {
       await installDependencies(backendPath);
    }
 
+   await initGit(root);
    logger.success("Project structure created!");
 }
 
