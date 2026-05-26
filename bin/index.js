@@ -3,7 +3,7 @@
 const { Command } = require("commander");
 const logger = require("../src/utils/logger");
 const createStructure = require("../src/utils/createStructure");
-const askProjectType = require("../src/utils/prompts");
+const askProjectConfig = require("../src/utils/prompts");
 
 const program = new Command();
 
@@ -16,15 +16,17 @@ program
    .argument("<project-name>")
    .action(async (projectName) => {
 
+      logger.title("StackForge");
+
       // Ask the user for project type
-      const projectType = await askProjectType();
+      const config = await askProjectConfig();
 
       logger.info(
-         `Creating ${projectType} project: ${projectName} ⏳`
+         `Creating ${config.type} project: ${projectName} ⏳`
       );
 
       // Pass project type into structure creator
-      await createStructure(projectName, projectType);
+      await createStructure(projectName, config);
 
       logger.success(
          `${projectName} is ready! 🚀`

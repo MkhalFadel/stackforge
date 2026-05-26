@@ -4,21 +4,41 @@ const logger = require("./logger");
 const copyTemplate = require("./copyTemplate");
 const installDependencies = require("./installDependencies");
 const initGit = require("./initGit");
+const createEnv = require("./createEnv");
+const removePrisma = require("./removePrisma");
+const installDatabasePackages = require("./installDatabasePackages");
 
-async function createStructure(projectName, type) {
+async function createStructure(projectName, config) {
 
    const root = path.join(process.cwd(), projectName);
+
+   const type = config.type;
 
    await fs.ensureDir(root);
 
    if (type === "frontend") {
       await copyTemplate("frontend", root);
-      await installDependencies(root)
+      if (config.install) await installDependencies(root);
    }
 
    else if (type === "backend") {
       await copyTemplate("backend", root);
-      await installDependencies(root)
+      
+      if (!config.prisma) await removePrisma(root);
+      
+      await createEnv(root, config.database);
+      
+      if (config.install) 
+      {
+         await installDependencies(root);
+         
+         await installDatabasePackages(
+            root,
+            config.database,
+            config.prisma
+         );
+      }
+
    }
 
    else {
@@ -31,11 +51,29 @@ async function createStructure(projectName, type) {
       await copyTemplate("frontend", frontendPath);
       await copyTemplate("backend", backendPath);
 
-      await installDependencies(frontendPath);
-      await installDependencies(backendPath);
+      if (!config.prisma) await removePrisma(backendPath);
+
+      await createEnv(
+         backendPath,
+         config.database
+      );
+
+      if (config.install) {
+         await installDependencies(frontendPath);
+         await installDependencies(backendPath);
+         
+         await installDatabasePackages(
+            backendPath,
+            config.database,
+            config.prisma
+         );
+      }
    }
 
-   await initGit(root);
+   if (config.git) {
+      await initGit(root);
+   }
+   
    logger.success("Project structure created!");
 }
 
