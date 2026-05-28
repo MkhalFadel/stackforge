@@ -8,6 +8,7 @@ const createEnv = require("./createEnv");
 const removePrisma = require("./removePrisma");
 const installDatabasePackages = require("./installDatabasePackages");
 const frontendFrameworks = require("../config/frontendFrameworks");
+const installTailwind = require("./installTailwind");
 
 async function createStructure(projectName, config) {
 
@@ -22,6 +23,8 @@ async function createStructure(projectName, config) {
 
       await copyTemplate(framework.template, root);
       if (config.install && framework.needsInstall) await installDependencies(root);
+
+      if (config.tailwind) await installTailwind(root);
    }
 
    else if (type === "backend") {
@@ -64,6 +67,9 @@ async function createStructure(projectName, config) {
       if (config.install) {
          if(framework.needsInstall)
          await installDependencies(frontendPath);
+         
+         if (config.tailwind) await installTailwind(frontendPath);
+
          await installDependencies(backendPath);
          
          await installDatabasePackages(

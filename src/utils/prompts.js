@@ -48,6 +48,18 @@ async function askProjectConfig() {
       });
    }
 
+   let tailwind = false;
+
+   if (frontendFramework === "react" || frontendFramework === "next") 
+   {
+      tailwind = await confirm({
+         message: chalk.cyan(
+            "Include Tailwind CSS?"
+         ),
+         default: true,
+      });
+   }
+
    let database = null;
 
    if (type !== "frontend") {
@@ -96,6 +108,7 @@ async function askProjectConfig() {
 
    return {
       type,
+      tailwind,
       frontendFramework,
       database,
       prisma,
