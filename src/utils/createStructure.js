@@ -5,10 +5,10 @@ const copyTemplate = require("./copyTemplate");
 const installDependencies = require("./installDependencies");
 const initGit = require("./initGit");
 const createEnv = require("./createEnv");
-const removePrisma = require("./removePrisma");
-const installDatabasePackages = require("./installDatabasePackages");
+const installDatabasePackages = require("../features/database/index");
 const frontendFrameworks = require("../config/frontendFrameworks");
-const installTailwind = require("./installTailwind");
+const setupTailwind = require("../features/tailwind");
+const setupPrisma = require("../features/prisma");
 
 async function createStructure(projectName, config) {
 
@@ -18,13 +18,13 @@ async function createStructure(projectName, config) {
 
    await fs.ensureDir(root);
 
+   const framework = frontendFrameworks[config.frontendFramework];
    if (type === "frontend") {
-      const framework = frontendFrameworks[config.frontendFramework];
 
       await copyTemplate(framework.template, root);
       if (config.install && framework.needsInstall) await installDependencies(root);
 
-      if (config.tailwind) await installTailwind(root);
+      if (config.tailwind) await await setupTailwind(root);
    }
 
    else if (type === "backend") {
@@ -68,7 +68,7 @@ async function createStructure(projectName, config) {
          if(framework.needsInstall)
          await installDependencies(frontendPath);
          
-         if (config.tailwind) await installTailwind(frontendPath);
+         if (config.tailwind) await await setupTailwind(frontendPath);
 
          await installDependencies(backendPath);
          

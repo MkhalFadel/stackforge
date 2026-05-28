@@ -1,11 +1,16 @@
 const { execa } = require("execa");
 const ora = require("ora").default;
 
-async function installTailwind(projectPath) {
+async function setupTailwind(
+   projectPath
+) {
 
-   const spinner = ora("Installing Tailwind CSS...").start();
+   const spinner = ora(
+      "Installing Tailwind CSS..."
+   ).start();
 
    try {
+
       await execa(
          "npm",
          [
@@ -20,14 +25,18 @@ async function installTailwind(projectPath) {
          }
       );
 
-      spinner.succeed("Tailwind CSS installed!");
+      spinner.succeed(
+         "Tailwind CSS installed!"
+      );
 
    } catch (err) {
 
-      spinner.fail("Failed to install Tailwind CSS.");
+      spinner.fail(
+         "Failed to install Tailwind CSS."
+      );
 
       throw err;
    }
 }
 
-module.exports = installTailwind;
+module.exports = setupTailwind;
