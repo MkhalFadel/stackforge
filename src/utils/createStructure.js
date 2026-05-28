@@ -7,6 +7,7 @@ const initGit = require("./initGit");
 const createEnv = require("./createEnv");
 const removePrisma = require("./removePrisma");
 const installDatabasePackages = require("./installDatabasePackages");
+const frontendFrameworks = require("../config/frontendFrameworks");
 
 async function createStructure(projectName, config) {
 
@@ -17,8 +18,10 @@ async function createStructure(projectName, config) {
    await fs.ensureDir(root);
 
    if (type === "frontend") {
-      await copyTemplate(`frontend/${config.frontendFramework}`,root);
-      if (config.install && config.frontendFramework !== 'vanilla') await installDependencies(root);
+      const framework = frontendFrameworks[config.frontendFramework];
+
+      await copyTemplate(framework.template, root);
+      if (config.install && framework.needsInstall) await installDependencies(root);
    }
 
    else if (type === "backend") {
@@ -59,7 +62,7 @@ async function createStructure(projectName, config) {
       );
 
       if (config.install) {
-         if(config.frontendFramework !== 'vanilla')
+         if(framework.needsInstall)
          await installDependencies(frontendPath);
          await installDependencies(backendPath);
          
