@@ -17,8 +17,8 @@ async function createStructure(projectName, config) {
    await fs.ensureDir(root);
 
    if (type === "frontend") {
-      await copyTemplate("frontend", root);
-      if (config.install) await installDependencies(root);
+      await copyTemplate(`frontend/${config.frontendFramework}`,root);
+      if (config.install && config.frontendFramework !== 'vanilla') await installDependencies(root);
    }
 
    else if (type === "backend") {
@@ -48,7 +48,7 @@ async function createStructure(projectName, config) {
       await fs.ensureDir(frontendPath);
       await fs.ensureDir(backendPath);
 
-      await copyTemplate("frontend", frontendPath);
+      await copyTemplate(`frontend/${config.frontendFramework}`, frontendPath);
       await copyTemplate("backend", backendPath);
 
       if (!config.prisma) await removePrisma(backendPath);
@@ -59,6 +59,7 @@ async function createStructure(projectName, config) {
       );
 
       if (config.install) {
+         if(config.frontendFramework !== 'vanilla')
          await installDependencies(frontendPath);
          await installDependencies(backendPath);
          

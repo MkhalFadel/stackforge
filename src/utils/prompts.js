@@ -22,6 +22,32 @@ async function askProjectConfig() {
       ],
    });
 
+   let frontendFramework = null;
+      
+   if (type === "frontend" || type === "fullstack") 
+   {
+      frontendFramework = await select({
+         message: chalk.cyan(
+            "Select frontend framework:"
+         ),
+
+         choices: [
+            {
+               name: "React",
+               value: "react",
+            },
+            {
+               name: "Next.js",
+               value: "next",
+            },
+            {
+               name: "Vanilla HTML/CSS/JS",
+               value: "vanilla",
+            },
+         ],
+      });
+   }
+
    let database = null;
 
    if (type !== "frontend") {
@@ -41,23 +67,36 @@ async function askProjectConfig() {
       });
    }
 
-   const prisma = await confirm({
-      message: chalk.cyan("Include Prisma ORM?"),
-      default: true,
-   });
+   let prisma = false;
+
+   if (type !== 'frontend') 
+   {
+      prisma = await confirm({
+         message: chalk.cyan(
+            "Include Prisma ORM?"
+         ),
+         default: true,
+      });
+   }
 
    const git = await confirm({
       message: chalk.cyan("Initialize Git repository?"),
       default: true,
    });
 
-   const install = await confirm({
-      message: chalk.cyan("Install dependencies automatically?"),
-      default: true,
-   });
+   let install = false;
+
+   if(frontendFramework !== 'vanilla' || type == 'backend' || type == 'fullstack')
+   {
+      install = await confirm({
+         message: chalk.cyan("Install dependencies automatically?"),
+         default: true,
+      });
+   }
 
    return {
       type,
+      frontendFramework,
       database,
       prisma,
       git,
