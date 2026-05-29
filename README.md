@@ -65,7 +65,7 @@ This makes the project scalable and easy to extend with future integrations.
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/stackforge.git
+git clone https://github.com/MkhalFadel/stackforge.git
 ```
 
 Enter the project directory:

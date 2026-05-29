@@ -1,6 +1,6 @@
 {
-  "name": "stackforge",
-  "version": "1.0.0",
+  "name": "create-stackforge-cli",
+  "version": "1.0.2",
   "description": "Modern fullstack project scaffolding CLI",
   "main": "index.js",
   "bin": {
