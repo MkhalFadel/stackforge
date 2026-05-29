@@ -24,7 +24,7 @@ async function createStructure(projectName, config) {
       await copyTemplate(framework.template, root);
       if (config.install && framework.needsInstall) await installDependencies(root);
 
-      if (config.tailwind) await await setupTailwind(root);
+      if (config.tailwind) await await setupTailwind(root, config.frontendFramework);
    }
 
    else if (type === "backend") {
@@ -68,7 +68,7 @@ async function createStructure(projectName, config) {
          if(framework.needsInstall)
          await installDependencies(frontendPath);
          
-         if (config.tailwind) await await setupTailwind(frontendPath);
+         if (config.tailwind) await await setupTailwind(frontendPath, config.frontendFramework);
 
          await installDependencies(backendPath);
          
