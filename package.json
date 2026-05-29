@@ -1,17 +1,22 @@
 {
   "name": "stackforge",
   "version": "1.0.0",
-  "description": "",
+  "description": "Modern fullstack project scaffolding CLI",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "bin": {
     "stackforge": "./bin/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cli",
+    "scaffolding",
+    "generator",
+    "fullstack",
+    "react",
+    "express",
+    "nextjs"
+  ],
+  "author": "Mkhal Fadel",
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
     "@inquirer/confirm": "^6.1.0",
