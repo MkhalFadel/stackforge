@@ -1,5 +1,5 @@
 {
-  "name": "stackforge",
+  "name": "create-stackforge-cli",
   "version": "1.0.0",
   "description": "Modern fullstack project scaffolding CLI",
   "main": "index.js",
