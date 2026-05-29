@@ -1,26 +1,25 @@
 const fs = require("fs-extra");
 const path = require("path");
 
-async function createEnv(projectPath, database) {
+async function createEnv(projectPath, config) {
 
    let databaseUrl = "";
 
-   if (database === "postgresql") {
+   let jwtSecret = "";
 
-      databaseUrl =
-         'DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/mydb"';
-   }
+   if (config.auth) jwtSecret = "\nJWT_SECRET=supersecretkey";
 
-   else if (database === "mysql") {
+   if (config.database === "postgresql")
+      databaseUrl = 'DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/mydb"';
 
-      databaseUrl =
-         'DATABASE_URL="mysql://USER:PASSWORD@localhost:3306/mydb"';
-   }
+   else if (config.database === "mysql")
+      databaseUrl = 'DATABASE_URL="mysql://USER:PASSWORD@localhost:3306/mydb"';
 
    const envContent = `
-PORT=5000
-${databaseUrl}
-`;
+   PORT=5000
+   ${databaseUrl}
+   ${jwtSecret}
+   `;
 
    await fs.writeFile(
       path.join(projectPath, ".env"),

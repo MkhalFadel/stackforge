@@ -96,6 +96,18 @@ async function askProjectConfig() {
       default: true,
    });
 
+   let auth = false;
+
+   if (type === "backend" || type === "fullstack") 
+   {
+      auth = await confirm({
+         message: chalk.cyan(
+            "Include JWT Authentication?"
+         ),
+         default: true,
+      });
+   }
+
    let install = false;
 
    if(frontendFramework !== 'vanilla' || type == 'backend' || type == 'fullstack')
@@ -113,6 +125,7 @@ async function askProjectConfig() {
       database,
       prisma,
       git,
+      auth,
       install,
    };
 }

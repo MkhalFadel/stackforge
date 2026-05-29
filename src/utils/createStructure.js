@@ -9,6 +9,7 @@ const installDatabasePackages = require("../features/database/index");
 const frontendFrameworks = require("../config/frontendFrameworks");
 const setupTailwind = require("../features/tailwind");
 const setupPrisma = require("../features/prisma");
+const setupAuth = require("../features/auth");
 
 async function createStructure(projectName, config) {
 
@@ -29,10 +30,11 @@ async function createStructure(projectName, config) {
 
    else if (type === "backend") {
       await copyTemplate("backend", root);
+      if (config.auth) await setupAuth(root);
       
-      if (!config.prisma) await removePrisma(root);
+      if (!config.prisma) await setupPrisma(root);
       
-      await createEnv(root, config.database);
+      await createEnv(root, config);
       
       if (config.install) 
       {
@@ -57,12 +59,11 @@ async function createStructure(projectName, config) {
       await copyTemplate(`frontend/${config.frontendFramework}`, frontendPath);
       await copyTemplate("backend", backendPath);
 
-      if (!config.prisma) await removePrisma(backendPath);
+      if (config.auth) await setupAuth(backendPath);
 
-      await createEnv(
-         backendPath,
-         config.database
-      );
+      if (!config.prisma) await setupPrisma(backendPath);
+
+      await createEnv(backendPath, config);
 
       if (config.install) {
          if(framework.needsInstall)
