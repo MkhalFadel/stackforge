@@ -1,5 +1,9 @@
 # 🚀 StackForge
 
+[![npm version](https://img.shields.io/npm/v/create-stackforge-cli)](https://www.npmjs.com/package/create-stackforge-cli)
+[![npm downloads](https://img.shields.io/npm/dm/create-stackforge-cli)](https://www.npmjs.com/package/create-stackforge-cli)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
 A modern fullstack project scaffolding CLI built with Node.js.
 
 StackForge automates the setup of frontend, backend, and fullstack applications by generating production-ready project structures with optional features like authentication, database support, Tailwind CSS, Prisma ORM, and more.
@@ -61,6 +65,22 @@ This makes the project scalable and easy to extend with future integrations.
 ---
 
 # 📦 Installation
+
+## Install from npm
+
+```bash
+npm install -g create-stackforge-cli
+```
+
+Verify installation:
+
+```bash
+stackforge --help
+```
+
+---
+
+## Install from Source
 
 Clone the repository:
 
@@ -212,10 +232,11 @@ Feel free to fork the project and submit pull requests.
 
 # 📄 License
 
-MIT License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 ---
 
 # 👨‍💻 Author
 
 Built by Mkhal Fadel.
+GitHub: https://github.com/MkhalFadel
