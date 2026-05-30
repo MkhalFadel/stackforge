@@ -4,6 +4,7 @@ const { Command } = require("commander");
 const logger = require("../src/utils/logger");
 const createStructure = require("../src/utils/createStructure");
 const askProjectConfig = require("../src/utils/prompts");
+const showSuccessMessage = require('../src/utils/showSuccessMessage')
 
 const program = new Command();
 
@@ -21,12 +22,12 @@ program
       // Ask the user for project type
       const config = await askProjectConfig();
 
-      logger.info(
-         `Creating ${config.type} project: ${projectName} ⏳`
-      );
+      logger.info(`Creating ${config.type} project: ${projectName} ⏳`);
 
       // Pass project type into structure creator
       await createStructure(projectName, config);
+
+      showSuccessMessage(projectName, config)
 
       logger.success(
          `${projectName} is ready! 🚀`
