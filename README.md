@@ -6,7 +6,7 @@
 
 ## Demo
 
-![StackForge Demo](./assets/demo.gif)
+![StackForge Demo](https://raw.githubusercontent.com/MkhalFadel/stackforge/main/assets/demo.gif)
 
 A modern fullstack project scaffolding CLI built with Node.js.
 
