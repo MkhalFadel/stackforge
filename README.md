@@ -4,6 +4,10 @@
 [![npm downloads](https://img.shields.io/npm/dm/create-stackforge-cli)](https://www.npmjs.com/package/create-stackforge-cli)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
+## Demo
+
+![StackForge Demo](./assets/demo.gif)
+
 A modern fullstack project scaffolding CLI built with Node.js.
 
 StackForge automates the setup of frontend, backend, and fullstack applications by generating production-ready project structures with optional features like authentication, database support, Tailwind CSS, Prisma ORM, and more.
