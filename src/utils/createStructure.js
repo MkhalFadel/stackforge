@@ -10,6 +10,10 @@ const frontendFrameworks = require("../config/frontendFrameworks");
 const setupTailwind = require("../features/tailwind");
 const setupPrisma = require("../features/prisma");
 const setupAuth = require("../features/auth");
+const setupESLint = require("../features/codeQuality/setupESLint");
+const setupPrettier = require("../features/codeQuality/setupPrettier");
+const updatePackageScripts = require("../utils/updatePackageScripts");
+const installCodeQualityPackages = require("../utils/installQualityPackages")
 
 async function createStructure(projectName, config) {
 
@@ -23,9 +27,28 @@ async function createStructure(projectName, config) {
    if (type === "frontend") {
 
       await copyTemplate(framework.template, root);
-      if (config.install && framework.needsInstall) await installDependencies(root);
+      if (config.install && framework.needsInstall)
+      {
+         await installDependencies(root);
+         
+         await installCodeQualityPackages(
+            root,
+            config.eslint,
+            config.prettier
+         );
+      } 
 
       if (config.tailwind) await await setupTailwind(root, config.frontendFramework);
+
+      if (config.eslint) await setupESLint(root);
+
+      if (config.prettier) await setupPrettier(root);
+
+      await updatePackageScripts(
+         root,
+         config.eslint,
+         config.prettier
+      );
    }
 
    else if (type === "backend") {
@@ -36,17 +59,32 @@ async function createStructure(projectName, config) {
       
       await createEnv(root, config);
       
+      if (config.eslint) await setupESLint(root);
+
+      if (config.prettier) await setupPrettier(root);
+
+      await updatePackageScripts(
+         root,
+         config.eslint,
+         config.prettier
+      );
+      
       if (config.install) 
       {
-         await installDependencies(root);
-         
-         await installDatabasePackages(
-            root,
-            config.database,
-            config.prisma
-         );
+            await installDependencies(root);
+            
+            await installDatabasePackages(
+               root,
+               config.database,
+               config.prisma
+            );
+            
+            await installCodeQualityPackages(
+               root,
+               config.eslint,
+               config.prettier
+            );
       }
-
    }
 
    else {
@@ -65,11 +103,41 @@ async function createStructure(projectName, config) {
 
       await createEnv(backendPath, config);
 
+      if (config.eslint) 
+      {
+         await setupESLint(frontendPath);
+         await setupESLint(backendPath);
+      }
+
+      if (config.prettier) 
+      {
+         await setupPrettier(frontendPath);
+         await setupPrettier(backendPath);
+      }
+      
+      await updatePackageScripts(
+         frontendPath,
+         config.eslint,
+         config.prettier
+      );
+      
+      await updatePackageScripts(
+         backendPath,
+         config.eslint,
+         config.prettier
+      );
+
+      if (config.tailwind) await setupTailwind(frontendPath, config.frontendFramework);
+      
       if (config.install) {
-         if(framework.needsInstall)
-         await installDependencies(frontendPath);
+         if(framework.needsInstall) await installDependencies(frontendPath);
          
-         if (config.tailwind) await await setupTailwind(frontendPath, config.frontendFramework);
+         await installCodeQualityPackages(
+            frontendPath,
+            config.eslint,
+            config.prettier
+         );
+
 
          await installDependencies(backendPath);
          
@@ -78,13 +146,17 @@ async function createStructure(projectName, config) {
             config.database,
             config.prisma
          );
+
+         await installCodeQualityPackages(
+            backendPath,
+            config.eslint,
+            config.prettier
+         );
       }
    }
 
-   if (config.git) {
-      await initGit(root);
-   }
-   
+   if (config.git) await initGit(root);
+
    logger.success("Project structure created!");
 }
 

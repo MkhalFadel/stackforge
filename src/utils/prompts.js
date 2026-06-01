@@ -108,6 +108,16 @@ async function askProjectConfig() {
       });
    }
 
+   const eslint = await confirm({
+      message: chalk.cyan("Include ESLint?"),
+      default: true,
+   });
+
+   const prettier = await confirm({
+      message: chalk.cyan("Include Prettier?"),
+      default: true,
+   });
+
    let install = false;
 
    if(frontendFramework !== 'vanilla' || type == 'backend' || type == 'fullstack')
@@ -126,6 +136,8 @@ async function askProjectConfig() {
       prisma,
       git,
       auth,
+      prettier,
+      eslint,
       install,
    };
 }

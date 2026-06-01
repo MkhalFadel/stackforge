@@ -48,6 +48,8 @@ with independent setups.
 - PostgreSQL Support
 - Tailwind CSS
 - Git initialization
+- ESLint setup
+- Prettier setup
 - Automatic dependency installation
 
 ---
