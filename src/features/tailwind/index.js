@@ -6,12 +6,9 @@ const path = require("path");
 
 async function setupTailwind(projectPath, framework)
 {
-   const spinner = ora(
-      "Setting up Tailwind CSS..."
-   ).start();
+   const spinner = ora("Setting up Tailwind CSS...").start();
 
    try {
-
       await execa(
          "npm",
          [
@@ -26,27 +23,14 @@ async function setupTailwind(projectPath, framework)
          }
       );
 
-      if (framework === "react") {
-         await setupReactTailwind(
-            projectPath
-         );
-      }
+      if (framework === "react") await setupReactTailwind(projectPath);
 
-      if (framework === "next") {
-         await setupNextTailwind(
-            projectPath
-         );
-      }
+      if (framework === "next") await setupNextTailwind(projectPath)
 
-      spinner.succeed(
-         "Tailwind CSS configured!"
-      );
+      spinner.succeed("Tailwind CSS configured!");
 
    } catch (err) {
-      spinner.fail(
-         "Failed to setup Tailwind CSS."
-      );
-
+      spinner.fail("Failed to setup Tailwind CSS.");
       throw err;
    }
 }

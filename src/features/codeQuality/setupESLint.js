@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 
-async function setupESLint(projectPath) {
+async function setupESLint(projectPaths) {
    const config = {
       env: {
          node: true,
@@ -14,10 +14,14 @@ async function setupESLint(projectPath) {
       rules: {},
    };
 
-   await fs.writeJson(
-      path.join(projectPath, ".eslintrc.json"),
-      config,
-      { spaces: 2 }
+   await Promise.all(
+      projectPaths.map(p =>
+         fs.writeJson(
+            path.join(p, ".eslintrc.json"),
+            config,
+            { spaces: 2 }
+         )
+      )
    );
 }
 

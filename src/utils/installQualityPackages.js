@@ -1,6 +1,6 @@
 const { execa } = require("execa");
 
-async function installCodeQualityPackages(projectPath, eslint, prettier) 
+async function installCodeQualityPackages(projectPaths, eslint, prettier) 
 {
    const packages = [];
 
@@ -10,14 +10,19 @@ async function installCodeQualityPackages(projectPath, eslint, prettier)
 
    if (packages.length === 0) return;
 
-   await execa(
-      "npm",
-      ["install", "-D", ...packages],
-      {
-         cwd: projectPath,
-         stdio: "inherit",
-      }
+   await Promise.all(
+      projectPaths.map(p =>
+         execa(
+            "npm",
+            ["install", "-D", ...packages],
+            {
+               cwd: p,
+               stdio: "ignore",
+            }
+         )
+      )
    );
+
 }
 
 module.exports = installCodeQualityPackages;

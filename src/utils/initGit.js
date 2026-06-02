@@ -3,25 +3,16 @@ const ora = require("ora").default;
 
 async function initGit(projectPath) {
 
-   const spinner = ora(
-      "Initializing Git repository..."
-   ).start();
+   const spinner = ora("Initializing Git repository...").start();
 
    try {
+      await execa("git", ["init"], {cwd: projectPath,});
 
-      await execa("git", ["init"], {
-         cwd: projectPath,
-      });
-
-      spinner.succeed(
-         "Git repository initialized!"
-      );
+      spinner.succeed("Git repository initialized!");
 
    } catch (err) {
 
-      spinner.fail(
-         "Failed to initialize Git."
-      );
+      spinner.fail("Failed to initialize Git.");
 
       throw err;
    }
