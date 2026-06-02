@@ -1,15 +1,11 @@
 const chalk = require("chalk").default;
 
 function showSuccessMessage(projectName, config) {
-   console.log();
-
    console.log(chalk.green.bold("✔ Project created successfully!"));
 
    console.log();
 
    console.log(chalk.cyan("Next steps:"));
-
-   console.log();
 
    if (config.type === "frontend") {
       console.log(chalk.white(`  cd ${projectName}`));

@@ -1,17 +1,21 @@
 const fs = require("fs-extra");
 const path = require("path");
 
-async function setupPrettier(projectPath) {
+async function setupPrettier(projectPaths) {
    const config = {
       semi: true,
       singleQuote: true,
       trailingComma: "es5",
    };
 
-   await fs.writeJson(
-      path.join(projectPath, ".prettierrc"),
-      config,
-      { spaces: 2 }
+   await Promise.all(
+      projectPaths.map(p =>
+         fs.writeJson(
+            path.join(p, ".prettierrc"),
+            config,
+            { spaces: 2 }
+         )
+      )
    );
 }
 
