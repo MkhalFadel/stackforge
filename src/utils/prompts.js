@@ -80,15 +80,19 @@ async function askProjectConfig() {
    }
 
    let prisma = false;
+   let swagger = false;
 
    if (type !== 'frontend') 
    {
       prisma = await confirm({
-         message: chalk.cyan(
-            "Include Prisma ORM?"
-         ),
+         message: chalk.cyan("Include Prisma ORM?"),
          default: true,
       });
+
+      swagger = await confirm({
+         message: chalk.cyan("Include Swagger/OpenAPI documentation?"),
+         default: true
+      })
    }
 
    const git = await confirm({
@@ -134,6 +138,7 @@ async function askProjectConfig() {
       frontendFramework,
       database,
       prisma,
+      swagger,
       git,
       auth,
       prettier,

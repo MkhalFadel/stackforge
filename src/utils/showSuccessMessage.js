@@ -19,12 +19,14 @@ function showSuccessMessage(projectName, config) {
 
    if (config.type === "backend") {
       console.log(chalk.white(`  cd ${projectName}`));
+   
+   if (!config.install) console.log(chalk.white("  npm install"));
 
-      if (!config.install) {
-         console.log(chalk.white("  npm install"));
-      }
+   console.log(chalk.white("  npm start"))
+   
+   console.log("\nSwagger Docs: ")
+   if(config.swagger) console.log("http://localhost:5000/api-docs");
 
-      console.log(chalk.white("  npm start"))
    }
 
    if (config.type === "fullstack") {
@@ -54,6 +56,9 @@ function showSuccessMessage(projectName, config) {
       }
 
       console.log(chalk.white("  npm start"));
+
+      console.log("\nSwagger Docs: ")
+      if(config.swagger) console.log("http://localhost:5000/api-docs");
    }
 
    console.log();

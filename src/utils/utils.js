@@ -11,6 +11,7 @@ const setupPrisma = require("../features/prisma");
 const setupAuth = require("../features/auth");
 const createEnv = require("./createEnv");
 const installDatabasePackages = require("../features/database/index");
+const applySwagger = require("../features/swagger");
 
 
 async function setupFrontend(config, root, framework)
@@ -49,6 +50,8 @@ async function setupBackend(config, root)
    if (config.auth) await setupAuth(root);
    
    if (!config.prisma) await setupPrisma(root);
+
+   if(config.swagger) await applySwagger(root, config.install);
    
    await createEnv(root, config);
    
@@ -94,6 +97,8 @@ async function setupFullstack(config, root, framework)
    if (config.auth) await setupAuth(backendPath);
 
    if (!config.prisma) await setupPrisma(backendPath);
+
+   if(config.swagger) await applySwagger(backendPath, config.install);
 
    await createEnv(backendPath, config);
 

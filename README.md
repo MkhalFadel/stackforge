@@ -44,6 +44,7 @@ with independent setups.
 
 - JWT Authentication
 - Prisma ORM
+- Swagger/OpenAPI documentation setup for backend and fullstack projects
 - MySQL Support
 - PostgreSQL Support
 - Tailwind CSS
