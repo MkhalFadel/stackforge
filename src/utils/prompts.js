@@ -24,12 +24,10 @@ async function askProjectConfig() {
 
    let frontendFramework = null;
       
-   if (type === "frontend" || type === "fullstack") 
+   if (type !== 'backend') 
    {
       frontendFramework = await select({
-         message: chalk.cyan(
-            "Select frontend framework:"
-         ),
+         message: chalk.cyan("Select frontend framework:"),
 
          choices: [
             {
@@ -50,17 +48,18 @@ async function askProjectConfig() {
 
    let tailwind = false;
 
-   if (frontendFramework === "react" || frontendFramework === "next") 
+   if (frontendFramework && frontendFramework !== 'vanilla') 
    {
       tailwind = await confirm({
-         message: chalk.cyan(
-            "Include Tailwind CSS?"
-         ),
+         message: chalk.cyan("Include Tailwind CSS?"),
          default: true,
       });
    }
 
    let database = null;
+   let prisma = false;
+   let swagger = false;
+   let auth = false;
 
    if (type !== "frontend") {
 
@@ -77,40 +76,27 @@ async function askProjectConfig() {
             },
          ],
       });
-   }
-
-   let prisma = false;
-   let swagger = false;
-
-   if (type !== 'frontend') 
-   {
+      
       prisma = await confirm({
          message: chalk.cyan("Include Prisma ORM?"),
          default: true,
       });
-
+   
       swagger = await confirm({
          message: chalk.cyan("Include Swagger/OpenAPI documentation?"),
          default: true
       })
+      
+      auth = await confirm({
+         message: chalk.cyan("Include JWT Authentication?"),
+         default: true,
+      });
    }
 
    const git = await confirm({
       message: chalk.cyan("Initialize Git repository?"),
       default: true,
    });
-
-   let auth = false;
-
-   if (type === "backend" || type === "fullstack") 
-   {
-      auth = await confirm({
-         message: chalk.cyan(
-            "Include JWT Authentication?"
-         ),
-         default: true,
-      });
-   }
 
    const eslint = await confirm({
       message: chalk.cyan("Include ESLint?"),
@@ -124,7 +110,7 @@ async function askProjectConfig() {
 
    let install = false;
 
-   if(frontendFramework !== 'vanilla' || type == 'backend' || type == 'fullstack')
+   if(frontendFramework !== 'vanilla' || type !== 'frontend')
    {
       install = await confirm({
          message: chalk.cyan("Install dependencies automatically?"),
