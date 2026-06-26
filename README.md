@@ -48,6 +48,7 @@ with independent setups.
 - MySQL Support
 - PostgreSQL Support
 - Tailwind CSS
+- Docker support for backend and fullstack projects
 - Git initialization
 - ESLint setup
 - Prettier setup
@@ -146,12 +147,15 @@ my-app/
 │   └── package.json
 │
 └── backend/
+    ├── src/
     ├── controllers/
     ├── routes/
     ├── middleware/
-    ├── prisma/
     ├── .env
-    └── package.json
+    ├── package.json
+    ├── Dockerfile
+    ├── docker-compose.yml
+    └── .dockerignore
 ```
 
 ---
@@ -190,6 +194,50 @@ Supported databases:
 - MySQL
 
 Optional Prisma ORM support is also available.
+
+---
+
+## 🐳 Docker Support
+
+StackForge can automatically generate Docker configuration files for backend and fullstack projects.
+
+Generated files:
+
+```text
+backend/
+├── Dockerfile
+├── .dockerignore
+└── docker-compose.yml
+```
+
+Start your application with:
+
+```bash
+docker compose up --build
+```
+
+The backend will be available at:
+
+```text
+http://localhost:5000
+```
+
+### Requirements
+
+Make sure Docker and Docker Compose are installed on your system.
+
+Linux users may need to add themselves to the Docker group:
+
+```bash
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
+Verify the installation:
+
+```bash
+docker ps
+```
 
 ---
 

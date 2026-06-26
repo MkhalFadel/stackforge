@@ -21,10 +21,7 @@ async function createEnv(projectPath, config) {
    ${jwtSecret}
    `;
 
-   await fs.writeFile(
-      path.join(projectPath, ".env"),
-      envContent
-   );
+   await fs.writeFile(path.join(projectPath, ".env"), envContent);
 }
 
 module.exports = createEnv;

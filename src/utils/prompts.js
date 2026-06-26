@@ -108,6 +108,16 @@ async function askProjectConfig() {
       default: true,
    });
 
+   let docker = false;
+
+   if(type !== 'frontend')
+   {
+      docker = await confirm({
+         message: chalk.cyan("Include Docker support?"),
+         default: true,
+      })
+   }
+
    let install = false;
 
    if(frontendFramework !== 'vanilla' || type !== 'frontend')
@@ -129,6 +139,7 @@ async function askProjectConfig() {
       auth,
       prettier,
       eslint,
+      docker,
       install,
    };
 }

@@ -12,7 +12,7 @@ const setupAuth = require("../features/auth");
 const createEnv = require("./createEnv");
 const installDatabasePackages = require("../features/database/index");
 const applySwagger = require("../features/swagger");
-
+const setupDocker = require("../features/docker/index");
 
 async function setupFrontend(config, root, framework)
 {
@@ -58,6 +58,8 @@ async function setupBackend(config, root)
    if (config.eslint) await setupESLint([root]);
 
    if (config.prettier) await setupPrettier([root]);
+
+   if(config.docker) await setupDocker(root);
 
    await updatePackageScripts(
       [root],
@@ -107,6 +109,8 @@ async function setupFullstack(config, root, framework)
 
    if (config.prettier) 
       await setupPrettier([frontendPath, backendPath]);
+
+   if(config.docker) await setupDocker(backendPath);
 
    await ensurePackageJson(frontendPath)
 
